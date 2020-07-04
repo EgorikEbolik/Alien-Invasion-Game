@@ -28,6 +28,11 @@ class Settings():
 
         #Темп роста стоимости пришельцев
         self.score_scale = 1.5
+        
+        # Скорость падения бонусов
+        self.bonus_speed = 1.5
+        self.bonus_allowed = 2
+        
     def dynamic_settings(self):
         self.alien_speed = 1.0
         self.bullet_speed = 1.5

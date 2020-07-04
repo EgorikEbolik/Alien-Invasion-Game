@@ -13,7 +13,7 @@ from stars import Star
 from game_stats import GameStats
 from button import Button
 from scoreboard import ScoreBoard
-
+from bonus import Bonus
 
 class AlienInvasion:
 
@@ -39,6 +39,8 @@ class AlienInvasion:
         self.stars = pygame.sprite.Group()
         self._create_stars_grid()
 
+        self.bonus = pygame.sprite.Group()
+        
         self.easy_button = Button(self, 850, 250, (102, 255, 0), "Easy")
         self.normal_button = Button(self, 850, 450, (255, 216, 0), "Normal")
         self.hard_button = Button(self, 850, 650, (255, 36, 0), "Hard")
@@ -55,7 +57,7 @@ class AlienInvasion:
                 self.ship.update()
                 self._update_bullets()
                 self._update_aliens()
-
+                self._update_bonus()
             self._update_screen()
 
     def _check_events(self):
@@ -102,7 +104,6 @@ class AlienInvasion:
         button_clicked = self.zerout_record_button.rect.collidepoint(mouse_pos)
 
         if button_clicked and not self.stats.game_active:
-
             os.system('python D:\\Programming\\Python\\alien_invasion\\start.py')
             sys.exit()
 
@@ -156,6 +157,25 @@ class AlienInvasion:
                 self.settings.bullet_speed = 0.7
                 self._check_play_button(mouse_pos)
 
+
+    def _bonus_start_fly(self):
+        """Создание нового бонуса и добавление в группу"""
+        
+        if len(self.bonus) < self.settings.bonus_allowed :
+            if  randint(0, 75) > 65:
+                new_bonus = Bonus(self)
+                self.bonus.add(new_bonus)
+
+    def _update_bonus(self):
+        """Обновляет места бонусов и убирает старые бонусы"""
+        
+        self.bonus.update()
+        
+        for new_bonus in self.bonus.copy():
+            if new_bonus.rect.bottom <= 1080:
+                self.bullets.remove(new_bonus)
+        self._check_bullet_alien_collisions()
+
     def _fire_bullet(self):
         """Создание нового снаряда и включение его в группу"""
 
@@ -181,6 +201,7 @@ class AlienInvasion:
             # Уничтожение существующих снарядов и создание нового флота
             self.bullets.empty()
             self._create_fleet()
+            self.bonus.empty()
             self.settings.inscrease_speed()
 
             # Увеличение уровня
@@ -193,7 +214,7 @@ class AlienInvasion:
         if collisions:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
-
+            self._bonus_start_fly()
             hit_sound = pygame.mixer.Sound(
                 'alien_invasion/other_files/ufo.wav')
             hit_sound.play()
@@ -356,6 +377,8 @@ class AlienInvasion:
             bullet.draw_bullet()
 
         self.aliens.draw(self.screen)
+        for bonus in self.bonus.sprites():
+            bonus.blitme()
 
         if not self.stats.game_active:
             self.easy_button.draw_button()
