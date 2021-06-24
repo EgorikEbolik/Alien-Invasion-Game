@@ -19,7 +19,7 @@ class ScoreBoard():
         # Настройка шрифта
         self.text_color = (255, 255, 255)
         self.font = pygame.font.Font(
-            'alien_invasion/other_files/pixel.ttf', 48)
+            'other_files\pixel.ttf', 48)
         # Подготовка исходнодного изображения счётов
         self.prep_score()
         self.prep_high_score()
@@ -107,7 +107,7 @@ class ScoreBoard():
         for ship_number in range(self.stats.ships_left):
             ship = Ship(self.ai_game)
             ship.image = pygame.image.load(
-                'alien_invasion/other_files/spaceship_small.png')
+                './other_files/spaceship_small.png')
             ship.rect.x = 10 + ship_number * ship.rect.width / 2
             ship.rect.y = 10
             self.ships.add(ship)

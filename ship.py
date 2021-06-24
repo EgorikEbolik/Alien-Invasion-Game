@@ -12,7 +12,7 @@ class Ship(Sprite):
         
         # загружает изображение корабля
         self.image = pygame.image.load(
-            'alien_invasion/other_files/spaceship.png')
+            './other_files/spaceship.png')
         self.rect = self.image.get_rect()
 
         # каждый корабль появляется у нижнего края экрана

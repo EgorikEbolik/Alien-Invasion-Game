@@ -28,11 +28,12 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
 
         self.stats = GameStats(self)
-        self.sb = ScoreBoard(self)
+        self.sb = ScoreBoard(self) 
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
 
+        self.alien = Alien(self)
         self.aliens = pygame.sprite.Group()
         self._create_fleet()
 
@@ -44,7 +45,7 @@ class AlienInvasion:
         self.easy_button = Button(self, 850, 250, (102, 255, 0), "Easy")
         self.normal_button = Button(self, 850, 450, (255, 216, 0), "Normal")
         self.hard_button = Button(self, 850, 650, (255, 36, 0), "Hard")
-        self.zerout_record_button = Button(
+        self.zerout_record_button = Button( 
             self, 850, 850, (0, 0, 0), "Zero out a record")
 
     def run_game(self):
@@ -104,7 +105,7 @@ class AlienInvasion:
         button_clicked = self.zerout_record_button.rect.collidepoint(mouse_pos)
 
         if button_clicked and not self.stats.game_active:
-            os.system('python D:\\Programming\\Python\\alien_invasion\\start.py')
+            os.system('python start.py')
             sys.exit()
 
     def _check_play_button(self, mouse_pos):
@@ -134,10 +135,10 @@ class AlienInvasion:
         hard_button_clicked = self.hard_button.rect.collidepoint(mouse_pos)
 
         if easy_button_clicked or normal_button_clicked or hard_button_clicked and not self.stats.game_active:
-            pygame.mixer.music.load(
-                'alien_invasion/other_files/for_levels.mp3')
-            pygame.mixer.music.set_volume(50)
-            pygame.mixer.music.play(-1)
+            #music = r"other_files/for_levels.mp3"
+            #pygame.mixer.music.load(music)
+            #pygame.mixer.music.set_volume(50)      На моём компьютере это почему-то перестало работать, 
+            #pygame.mixer.music.play(-1)            но ты можешь раскомментировать эту часть кода и скорее всего оно заработает
             if easy_button_clicked:
                 self.settings.dynamic_settings()
                 self.settings.alien_speed = 0.7
@@ -161,10 +162,9 @@ class AlienInvasion:
     def _bonus_start_fly(self):
         """Создание нового бонуса и добавление в группу"""
         
-        if len(self.bonus) < self.settings.bonus_allowed :
-            if  randint(0, 75) > 65:
-                new_bonus = Bonus(self)
-                self.bonus.add(new_bonus)
+        if len(self.bonus) < self.settings.bonus_allowed and randint(0, 75) > 70 :
+            new_bonus = Bonus(self)
+            self.bonus.add(new_bonus)
 
     def _update_bonus(self):
         """Обновляет места бонусов и убирает старые бонусы"""
@@ -182,7 +182,7 @@ class AlienInvasion:
         if len(self.bullets) < self.settings.bullet_allowed:
             new_bullet = Bullet(self)
             self.bullets.add(new_bullet)
-            fire_sound = pygame.mixer.Sound("alien_invasion/other_files/shot.wav")
+            fire_sound = pygame.mixer.Sound("other_files/shot.wav")
             fire_sound.play()
 
     def _update_bullets(self):
@@ -214,9 +214,9 @@ class AlienInvasion:
         if collisions:
             for aliens in collisions.values():
                 self.stats.score += self.settings.alien_points * len(aliens)
-            self._bonus_start_fly()
+            #self._bonus_start_fly()
             hit_sound = pygame.mixer.Sound(
-                'alien_invasion/other_files/ufo.wav')
+                'other_files/ufo.wav')
             hit_sound.play()
 
             self.sb.prep_score()
@@ -260,7 +260,7 @@ class AlienInvasion:
                 self._change_fleet_direction()
                 break
 
-    def _change_fleet_direction(self):
+    def _change_fleet_direction(self): 
         """Опускает флот и меняет направление"""
 
         for alien in self.aliens.sprites():

@@ -13,7 +13,7 @@ class Button():
         self.button_color = color
         self.text_color = (255, 255, 255)
         self.font = pygame.font.Font(
-            'alien_invasion/other_files/pixel.ttf', 48)
+            'other_files/pixel.ttf', 48)
 
         # Построение объекта rect и выравнивание по центру
         self.rect = pygame.Rect(0, 0, self.width, self.height)

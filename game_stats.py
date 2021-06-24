@@ -11,7 +11,7 @@ class GameStats():
 
     def read_high_score(self):
         """Читает рекорд"""
-
+        
         filename = 'record.txt'
         with open(filename) as f:
             self.high_score = f.read()

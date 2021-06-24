@@ -12,7 +12,7 @@ class Settings():
         self.ship_limit = 3
 
         # параметры снаряда
-        self.bullet_width = 3
+        self.bullet_width = 5
         self.bullet_height = 15
         self.bullet_color = (255, 255, 255)
         self.bullet_allowed = 3

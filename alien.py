@@ -9,16 +9,16 @@ class Alien(Sprite):
         super().__init__()
         self.screen = ai_game.screen
         self.screen_rect = ai_game.screen.get_rect()
-        self.image = pygame.image.load('alien_invasion/other_files/ufo.png')
+        self.image = pygame.image.load('other_files/ufo.png')
         self.rect = self.image.get_rect()
 
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
-        self.rect.midbottom = self.screen_rect.midbottom
 
         self.x = float(self.rect.x)
 
         self.settings = ai_game.settings
+
     def update(self):
         """Перемещает пришельца влево или вправо"""
 
